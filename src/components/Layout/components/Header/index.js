@@ -1,5 +1,6 @@
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Link } from 'react-router-dom';
 import {
     faCircleQuestion,
     faCoins,
@@ -129,7 +130,9 @@ function Header() {
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
                 <div className={cx('logo')}>
-                    <img src={images.logo} alt="NO img" />
+                    <Link to="/">
+                        <img src={images.logo} alt="NO img" />
+                    </Link>
                 </div>
                 <ReSearch />
                 <div className={cx('actions')}>
