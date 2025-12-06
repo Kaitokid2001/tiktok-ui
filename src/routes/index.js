@@ -11,7 +11,7 @@ import UploadPage from '~/components/pages/Upload';
 const publicRoutes = [
     { path: '/', component: Homepage },
     { path: '/following', component: FollowingPage },
-    { path: '/profile', component: Profilepage },
+    { path: '/@:nickname', component: Profilepage },
     { path: '/upload', component: UploadPage, layout: DefaultLayoutHeader },
 ];
 

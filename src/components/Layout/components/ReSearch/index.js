@@ -2,6 +2,9 @@ import { useState, useEffect, useRef } from 'react';
 import HeadlessTippy from '@tippyjs/react/headless';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark, faMagnifyingGlass, faSpinner } from '@fortawesome/free-solid-svg-icons';
+
+import * as searchServices from '~/apiServices/searchServices';
+import { useDebounce } from '~/hooks';
 import { Wrapper as PopperWrapper } from '~/components/Poper';
 import AccountItem from '~/components/AccountItem';
 import classNames from 'classnames/bind';
@@ -13,14 +16,31 @@ function ReSearch() {
     const [searchValue, setSearchValue] = useState('');
     const [searchResult, setSearchResult] = useState([]);
     const [showResult, setShowResult] = useState(true);
+    const [loading, setloading] = useState(false);
+
+    //add time
+    const debounced = useDebounce(searchValue, 500);
 
     const inputRef = useRef();
 
     useEffect(() => {
-        setTimeout(() => {
-            setSearchResult([1, 2, 3]);
-        }, 0);
-    });
+        // fix lỗi chuỗi rỗng
+        if (!debounced.trim()) {
+            setSearchResult([]);
+            return;
+        }
+
+        //REST API
+        const fetchApi = async () => {
+            // callAPI first
+            setloading(true);
+
+            const result = await searchServices.searchService(debounced);
+            setSearchResult(result);
+            setloading(false);
+        };
+        fetchApi();
+    }, [debounced]);
 
     const handleClear = () => {
         setSearchValue('');
@@ -40,10 +60,9 @@ function ReSearch() {
                 <div className={cx('search-result')} tabIndex="-1" {...attrs}>
                     <PopperWrapper>
                         <h4 className={cx('search-title')}>Account</h4>
-                        <AccountItem />
-                        <AccountItem />
-                        <AccountItem />
-                        <AccountItem />
+                        {searchResult.map((result) => {
+                            return <AccountItem key={result.id} data={result} />;
+                        })}
                     </PopperWrapper>
                 </div>
             )}
@@ -59,12 +78,12 @@ function ReSearch() {
                     onFocus={() => setShowResult(true)}
                 />
 
-                {!!searchValue && (
+                {!!searchValue && !loading && (
                     <button className={cx('clear')} onClick={handleClear}>
                         <FontAwesomeIcon icon={faCircleXmark} />
                     </button>
                 )}
-                {/* <FontAwesomeIcon icon={faSpinner} className={cx('loading')} /> */}
+                {loading && <FontAwesomeIcon icon={faSpinner} className={cx('loading')} />}
 
                 <button className={cx('search-btn')}>
                     <FontAwesomeIcon icon={faMagnifyingGlass} />
