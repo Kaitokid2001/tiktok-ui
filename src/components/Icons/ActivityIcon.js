@@ -1,7 +1,6 @@
 export const ActivityIcon = ({ width = '3.2rem', height = '3.2rem', className }) => (
     <svg
         fill="currentColor"
-        font-size="32px"
         viewBox="0 0 48 48"
         xmlns="http://www.w3.org/2000/svg"
         width={width}

@@ -1,6 +1,6 @@
 // Tổng hợp lại router
 
-import { DefaultLayoutHeader } from '~/components/Layout';
+import { DefaultLayoutHeader } from '~/Layout';
 
 import Homepage from '~/components/pages/Home';
 import FollowingPage from '~/components/pages/Following';
