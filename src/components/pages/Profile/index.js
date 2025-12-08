@@ -1,4 +1,4 @@
-function Profilepage() {
+function ProFilePage() {
     return (
         <div>
             <h1>ProfilePage</h1>
@@ -6,4 +6,4 @@ function Profilepage() {
     );
 }
 
-export default Profilepage;
+export default ProFilePage;
